@@ -1,1 +1,1 @@
-include ':app', ':myapplication2', ':myapplication3', ':iov'
+include ':app', ':myutil'
