@@ -11,25 +11,32 @@ import java.util.Scanner;
  * Zip4J解压缩文件代码示例
  * Created by XDH on 2017/10/24.
  */
-
 public class Zip4JUnZip {
-    // 解压方法1
-    public void Unzip4j(String zipFile) throws ZipException {
-        ZipFile zip = new ZipFile(zipFile);
-        //第一时间设置编码格式
+    public static void main(String[] args) throws ZipException {
+        Unzip4j("D:\\笔记\\Android基础.zip");
+    }
+
+    /**
+     * 解压单个方法
+     * @param src   解压文件路径
+     * @throws ZipException
+     */
+    public static void Unzip4j(String src) throws ZipException {
+        ZipFile zip = new ZipFile(src);
+        // 第一时间设置编码格式
         zip.setFileNameCharset("GBK");
-        //用自带的方法检测一下zip文件是否合法，包括文件是否存在、是否为zip文件、是否被损坏等
+        // 用自带的方法检测一下zip文件是否合法，包括文件是否存在、是否为zip文件、是否被损坏等
         if (!zip.isValidZipFile()) {
             throw new ZipException("文件不合法或不存在");
         }
         checkEncrypted(zip);
         // 跟java自带相比，这里文件路径会自动生成，不用判断
-        zip.extractAll("D:\\压缩\\test1");
+        zip.extractAll(zip.getFile().getPath());
         System.out.println("解压成功！");
     }
 
     // 解压方法2
-    public void Unzip4j1(String zipFile) throws ZipException {
+    public static void Unzip4j1(String zipFile) throws ZipException {
         long startTime = System.currentTimeMillis();
         ZipFile zipFile2 = new ZipFile(zipFile);
         //设置编码格式
@@ -49,8 +56,10 @@ public class Zip4JUnZip {
         System.out.println("耗时：" + (endTime - startTime) + "ms");
     }
 
-    //检测密码
-    private void checkEncrypted(ZipFile zip) throws ZipException {
+    /**
+     * 检测是否有密码
+     */
+    public static void checkEncrypted(ZipFile zip) throws ZipException {
         Scanner in=new Scanner(System.in);
         if (zip.isEncrypted()) {
             System.out.println("文件"+zip.getFile().getName()+"有密码！");

@@ -31,7 +31,7 @@ public class Zip4JCondense {
         }
         // 创建同路径的同名压缩文件
         ZipFile zip = new ZipFile(src.substring(0,src.lastIndexOf(".")) + ".zip");
-        // 设置文件名编码，设置要紧跟在示例华对象后
+        // 设置文件名编码，设置要紧跟在实例化对象后
         zip.setFileNameCharset("GBK");
 
         // 设置参数
