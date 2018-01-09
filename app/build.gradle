@@ -13,8 +13,9 @@ android {
 
         ndk {
             //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64"
         }
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -22,9 +23,41 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        flavorDimensions 'url', 'store', 'type'
+        flavors1 {
+            dimension 'url'
+            resValue "string", "NAME", NAME
+            manifestPlaceholders = [app_icon: "@mipmap/aaaa"]
+            applicationId "com.example.branchOne"
+            buildConfigField "String", "CONFIG_ENDPOINT", '"google"'
+        }
+        flavors2 {
+            dimension 'url'
+            applicationId "com.example.branchOne2"
+
+            buildConfigField "String", "CONFIG_ENDPOINT", '"http://branchOne.com/baidu"'
+        }
+        flavors3 {
+            dimension 'store'
+            buildConfigField "String", "CONFIG_ENDPOINT", '"http://branchOne.com/android3"'
+        }
+        flavors4 {
+            dimension 'type'
+            buildConfigField "String", "CONFIG_ENDPOINT", '"http://branchOne.com/android35"'
+        }
+        flavors5 {
+            dimension 'type'
+            buildConfigField "String", "CONFIG_ENDPOINT", '"http://branchOne.com/android36"'
+        }
+    }
+
+
 }
 
 dependencies {
+    implementation 'com.android.support:support-vector-drawable:25.4.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
