@@ -23,6 +23,14 @@ public class GreenDaoActivity extends AppCompatActivity {
 
 
         img = (ImageView) findViewById(R.id.imageView2);
+
+
+
+
+
+
+
+
         img.post(() -> {
             LogUtils.e("",img.getWidth(),img.getHeight(),img.getDrawable().getIntrinsicWidth(),img.getDrawable().getIntrinsicHeight()
             ,img.getDrawable().getBounds().width(),img.getDrawable().getBounds().height());
