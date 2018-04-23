@@ -1,37 +1,10 @@
 package com.example.administrator.myapplication;
 
-import android.Manifest;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.icu.util.Calendar;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
-import com.example.administrator.myapplication.bean.WeaterBean;
-
-import java.util.concurrent.TimeUnit;
-
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
-import rx.subjects.AsyncSubject;
-import rx.subjects.BehaviorSubject;
-import rx.subjects.ReplaySubject;
-
-import static java.lang.reflect.Array.set;
-import static rx.Observable.just;
 
 /**
  * Created by Administrator on 2017/6/7.
@@ -39,7 +12,7 @@ import static rx.Observable.just;
 
 public class RxJavaAcitivity extends AppCompatActivity implements View.OnClickListener {
     private Button bt1;
-    private Observable<Bitmap> from;
+//    private Observable<Bitmap> from;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,47 +110,58 @@ public class RxJavaAcitivity extends AppCompatActivity implements View.OnClickLi
 //                    }
 //                });
 
-                Observable.create(new Observable.OnSubscribe<String>() {
-                    @Override
-                    public void call(Subscriber<? super String> subscriber) {
-                        subscriber.onNext("1");
-                        subscriber.onNext("2");
-                        System.out.println("create:" + Thread.currentThread().getId());
-                    }
-                })
-                        .observeOn(Schedulers.io())
-                        .subscribeOn(Schedulers.io())
-                        .map(new Func1<String, Integer>() {
-                            @Override
-                            public Integer call(String s) {
-                                System.out.println("map" + Thread.currentThread().getId());
-                                Integer integer = Integer.valueOf(s);
-                                return integer;
-                            }
-                        })
-                        .observeOn(Schedulers.io())
-                        .filter(new Func1<Integer, Boolean>() {
-                            @Override
-                            public Boolean call(Integer integer) {
-                                System.out.println("filter" + Thread.currentThread().getId());
-                                return integer == 2;
-                            }
-                        })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<Integer>() {
-                            @Override
-                            public void call(Integer integer) {
-                                System.out.println("subscribe" + Thread.currentThread().getId());
-
-                            }
-                        });
-
-
-
-
-
-
-
+//                Observable.create(new Observable.OnSubscribe<String>() {
+//                    @Override
+//                    public void call(Subscriber<? super String> subscriber) {
+//                        subscriber.onNext("1");
+//                        subscriber.onNext("2");
+//                        System.out.println("create:" + Thread.currentThread().getId());
+//                    }
+//                })
+//                        .observeOn(Schedulers.io())
+//                        .subscribeOn(Schedulers.io())
+//                        .map(new Func1<String, Integer>() {
+//                            @Override
+//                            public Integer call(String s) {
+//                                System.out.println("map" + Thread.currentThread().getId());
+//                                Integer integer = Integer.valueOf(s);
+//                                return integer;
+//                            }
+//                        })
+//                        .observeOn(Schedulers.io())
+//                        .filter(new Func1<Integer, Boolean>() {
+//                            @Override
+//                            public Boolean call(Integer integer) {
+//                                System.out.println("filter" + Thread.currentThread().getId());
+//                                return integer == 2;
+//                            }
+//                        })
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(new Action1<Integer>() {
+//                            @Override
+//                            public void call(Integer integer) {
+//                                System.out.println("subscribe" + Thread.currentThread().getId());
+//
+//                            }
+//                        });
+//
+//
+//                new Observer<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(String s) {
+//
+//                    }
+//                };
 
 
 //                AsyncSubject<String> asyncSubject = AsyncSubject.create();

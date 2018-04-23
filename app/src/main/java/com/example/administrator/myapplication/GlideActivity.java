@@ -1,23 +1,16 @@
 package com.example.administrator.myapplication;
 
 import android.Manifest;
-import android.Manifest.permission;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ComposeShader;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.RadialGradient;
-import android.graphics.RectF;
-import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -31,15 +24,11 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import static android.R.attr.bitmap;
-import static android.R.attr.configChanges;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 
 /**
  * Created by Administrator on 2017/5/25.
@@ -92,8 +81,22 @@ public class GlideActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch(v.getId()){
         case R.id.image:
-            Glide.with(this).load("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=12061520,174344021&fm=23&gp=0.jpg")
-                    .transform(new BitmapHandler(this)).diskCacheStrategy(DiskCacheStrategy.NONE).into(mImg);
+            Glide.with(this).load("http://daj.wuning.gov.cn/UploadFiles/2013/2/2013012120082043984.jpg")
+                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    mImg.setImageBitmap(resource);
+                    mImg.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            BitmapDrawable drawable = (BitmapDrawable) mImg.getDrawable();
+                            Bitmap bitmap = drawable.getBitmap();
+                            System.out.println("-----------"+bitmap.getWidth());
+                        }
+                    },1000);
+
+                }
+            });
 
 
 //            Drawable drawable = mImg.getDrawable();

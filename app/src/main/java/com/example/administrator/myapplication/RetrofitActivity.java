@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.FormBody;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -58,11 +61,22 @@ public class RetrofitActivity extends AppCompatActivity implements View.OnClickL
             RequestBody body = new FormBody.Builder().add("name", "lisi").build();
 
 
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.addInterceptor(new Interceptor() {
+                @Override
+                public okhttp3.Response intercept(Chain chain) throws IOException {
 
+                    return null;
+                }
+            });
+            OkHttpClient okHttpClient = builder.build();
 
 
             Retrofit retrofit = new Retrofit.Builder().baseUrl("http://v.juhe.cn/")
                     .addConverterFactory(GsonConverterFactory.create()).build();
+
+
+
             DoubanService doubanService = retrofit.create(DoubanService.class);
             Map<String,String> map = new HashMap<String,String>();
             map.put("ip","58.215.185.154");

@@ -13,6 +13,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Headers;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -36,6 +37,14 @@ public class OkHttpActivity extends AppCompatActivity implements View.OnClickLis
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         builder.connectTimeout(1500, TimeUnit.SECONDS);
+        builder.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                Request.Builder builder1 = request.newBuilder();
+                return chain.proceed(request);
+            }
+        });
 
         mOkHttp = new OkHttpClient();
         mBt = (Button) findViewById(R.id.button);
@@ -52,6 +61,8 @@ public class OkHttpActivity extends AppCompatActivity implements View.OnClickLis
         switch(v.getId()){
         case R.id.button:
             Request request = new Request.Builder().url("https://api.douban.com/v2/book/1220562").get().build();
+
+
             Call call = mOkHttp.newCall(request);
 
 
