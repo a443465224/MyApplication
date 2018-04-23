@@ -18,10 +18,6 @@ public class GreenDaoActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lambda);
-
-
-
-
         img = (ImageView) findViewById(R.id.imageView2);
         img.post(() -> {
             LogUtils.e("",img.getWidth(),img.getHeight(),img.getDrawable().getIntrinsicWidth(),img.getDrawable().getIntrinsicHeight()
