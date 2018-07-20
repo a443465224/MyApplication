@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.SupportActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -20,7 +21,7 @@ import java.io.IOException;
  * Created by Administrator on 2017/6/2.
  */
 
-public class DBActivity extends AppCompatActivity {
+public class DBActivity extends SupportActivity {
 
 
     @Override

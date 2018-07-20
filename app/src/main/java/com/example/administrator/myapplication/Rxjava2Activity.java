@@ -1,30 +1,44 @@
 package com.example.administrator.myapplication;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.administrator.myapplication.bean.ApiException;
 import com.example.administrator.myapplication.bean.ErrorBean;
 import com.example.administrator.myapplication.bean.LogUtils;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.trello.navi2.component.NaviActivity;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.trello.rxlifecycle2.navi.NaviLifecycle;
 
-import java.util.concurrent.TimeUnit;
+import org.apache.http.conn.ConnectTimeoutException;
+
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableOperator;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -43,6 +57,7 @@ public class Rxjava2Activity extends NaviActivity implements View.OnClickListene
     private TextView tv;
     private Observable<String> observable;
     Observer<String> observer;
+    private String s;
 
     private LifecycleProvider<ActivityEvent> p =  NaviLifecycle.createActivityLifecycleProvider(this);
 
@@ -82,59 +97,11 @@ public class Rxjava2Activity extends NaviActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-       observable = Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> e) throws Exception {
-                e.onNext("s1");
-                e.onNext("s2");
-                e.onComplete();
-            }
-        });
-//
-//        Observable<Integer> observable2 = Observable.create(new ObservableOnSubscribe<Integer>() {
-//            @Override
-//            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
-//                e.onNext(1);
-//                e.onNext(2);
-//            }
-//        });
-//
-//
-//        Observable<String> zip = Observable.zip(observable, observable2, new BiFunction<String, Integer, String>() {
-//            @Override
-//            public String apply(String s, Integer integer) throws Exception {
-//
-//                return null;
-//            }
-//        });
-//
-//
-//        observable.filter(new Predicate<String>() {
-//            @Override
-//            public boolean test(String s) throws Exception {
-//                return false;
-//            }
-//        });
-//
-//        com.orhanobut.logger.Logger.addLogAdapter(new AndroidLogAdapter());
-////        com.orhanobut.logger.Logger.
-//        com.orhanobut.logger.Logger.e("zhixingle");
-
-//        LogUtils.e("zhixingle","111","32r");
-        LogUtils.e(null,SystemClock.uptimeMillis(),
-                SystemClock.currentThreadTimeMillis(),SystemClock.elapsedRealtime(),
-                System.currentTimeMillis()
-        );
-
-
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor httpLogInfo = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-//                com.orhanobut.logger.Logger.d(message);
-//                LogUtils.json(message);
-                LogUtils.e( message);
-////                com.orhanobut.logger.Logger.d(message);
+                LogUtils.e(message);
                 if (message.startsWith("{")){
                     LogUtils.json(message);
                 }
@@ -149,51 +116,59 @@ public class Rxjava2Activity extends NaviActivity implements View.OnClickListene
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient).build();
 
+
+
+
+        String s="";
         retrofit.create(DoubanService.class).getBook()
                 .subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread())
-                .doOnError(new Consumer<Throwable>() {
+                .compose(new ObservableTransformer<ErrorBean, ErrorBean>() {
+                    @SuppressLint("CheckResult")
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        System.out.println("--------doOn----" + throwable.toString());
+                    public ObservableSource<ErrorBean> apply(Observable<ErrorBean> upstream) {
+                        if ( s== null){
+                            Observable<ErrorBean> yy = Observable.error(new ApiException("这是一个异常"));
+                            return Observable.error(new ApiException("这是一个异常"));
+                        }
+                        return upstream;
                     }
                 })
-                .doOnNext(new Consumer<ErrorBean>() {
+                .onErrorResumeNext(new Function<Throwable, ObservableSource<? extends ErrorBean>>() {
                     @Override
-                    public void accept(ErrorBean errorBean) throws Exception {
+                    public ObservableSource<? extends ErrorBean> apply(Throwable throwable) throws Exception {
+                        LogUtils.e("------onErrorRes   "+throwable.toString());
 
-                        errorBean.setErrorCode(10000);
-                        System.out.println("-------------doonnext----" + 10000);
+
+                        if (throwable instanceof UnknownHostException) {
+                            LogUtils.e("网络连接错误");
+                        } else if (throwable instanceof SocketTimeoutException || throwable instanceof ConnectTimeoutException) {
+                            LogUtils.e("连接超时");
+                        } else if (throwable instanceof HttpException) {
+                            LogUtils.e("服务器错误");
+                        } else if (throwable instanceof MalformedJsonException || throwable instanceof JsonSyntaxException) {
+                            LogUtils.e("返回数据解析错误");
+                        } else {
+                            LogUtils.e("未知错误");
+                        }
+                        return Observable.error(new ApiException("这是一个异常"));
                     }
                 })
-                .doOnComplete(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        System.out.println("--------onComp");
-                    }
-                })
-                .map(new Function<ErrorBean, String>() {
-                    @Override
-                    public String apply(ErrorBean errorBean) throws Exception {
-                        System.out.println("------map----" + errorBean.getErrorCode());
-                        return "111";
-                    }
-                })
-                .compose(upstream -> upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .map(s -> 22))
-                .subscribe(new Observer<Integer>() {
+                .filter(errorBean -> true)
+               
+                .subscribe(new Observer<ErrorBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        
                     }
 
                     @Override
-                    public void onNext(Integer integer) {
-
+                    public void onNext(ErrorBean errorBean) {
+                        LogUtils.e(true,"onNext");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        LogUtils.e(true,"onError");
                     }
 
                     @Override
@@ -205,14 +180,15 @@ public class Rxjava2Activity extends NaviActivity implements View.OnClickListene
 
 
 
-        Observable.interval(0,1, TimeUnit.SECONDS)
-                .compose(p.bindUntilEvent(ActivityEvent.STOP))
-                .subscribe(new Consumer<Long>() {
-            @Override
-            public void accept(Long aLong) throws Exception {
-                LogUtils.e("Fasongshuju");
-            }
-        });
+
+//        Observable.interval(0,1, TimeUnit.SECONDS)
+//                .compose(p.bindUntilEvent(ActivityEvent.STOP))
+//                .subscribe(new Consumer<Long>() {
+//            @Override
+//            public void accept(Long aLong) throws Exception {
+//                LogUtils.e("Fasongshuju");
+//            }
+//        });
 
 
 //        List<String> list =new ArrayList<>(Arrays.asList(new String[]{"1"}));
@@ -307,5 +283,9 @@ public class Rxjava2Activity extends NaviActivity implements View.OnClickListene
     public interface DoubanService {
         @GET("article/list/100/json/")
         Observable<ErrorBean> getBook();
+
+        @GET("n1/2018/0507/c1001-29967542.html")
+        Observable<ErrorBean> testError();
+
     }
 }

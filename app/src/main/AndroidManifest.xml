@@ -53,9 +53,9 @@
         </provider>
 
         <activity android:name=".MainActivity" />
-        <activity android:name=".GlideActivity"></activity>
+        <activity android:name=".GlideActivity" />
         <activity android:name=".DBActivity" />
-        <activity android:name=".BaseRecyclerViewActivity"></activity>
+        <activity android:name=".BaseRecyclerViewActivity" />
         <activity android:name=".OkHttpActivity" />
         <activity android:name=".RetrofitActivity" />
         <activity android:name=".RxJavaAcitivity" />
@@ -65,27 +65,46 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".CadrViewActivity" />
+        <activity android:name=".CadrViewActivity" >
+
+
+        </activity>
         <activity android:name=".TouchEventActivity" />
-        <activity android:name=".SimpleTestActivity"></activity>
+        <activity android:name=".SimpleTestActivity" />
         <activity
             android:name=".View.ToastActivity"
-            android:label="@string/title_activity_toast"></activity>
+            android:label="@string/title_activity_toast" />
         <activity
             android:name=".UriActivity"
             android:label="@string/title_activity_uri"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity android:name=".Rxjava2Activity">
 
         </activity>
-
-        <activity android:name=".LambdaActivity"></activity>
-        <activity android:name=".GreenDaoActivity">
+        <activity android:name=".LambdaActivity" />
+        <activity android:name=".GreenDaoActivity" />
+        <activity android:name=".WheelViewActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".SmartLayoutActivity" />
+        <activity android:name=".WebViewActivity">
+
+        </activity>
+        <activity android:name=".LottieActivity">
+
+        </activity>
+        <activity android:name=".ViewActivity"
+            android:hardwareAccelerated="false">
+
+        </activity>
+
+        <activity android:name=".MDActivity">
+
+
         </activity>
     </application>
 

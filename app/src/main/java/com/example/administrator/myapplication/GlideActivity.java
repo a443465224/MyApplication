@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -45,7 +46,8 @@ public class GlideActivity extends AppCompatActivity implements View.OnClickList
 
         mImg = (ImageView) findViewById(R.id.image);
 
-        mImg2 = (ImageView) findViewById(R.id.image2);
+
+
 
 //        Glide.with(this).load("http://img2.imgtn.bdimg.com/it/u=3592644171,2667616623&fm=23&gp=0.jpg").into(mImg);
         RequestManager requestManager = Glide.with(this);
@@ -72,6 +74,8 @@ public class GlideActivity extends AppCompatActivity implements View.OnClickList
 
 
 
+
+
         mImg.setOnClickListener(this);
 
     }
@@ -81,22 +85,35 @@ public class GlideActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch(v.getId()){
         case R.id.image:
-            Glide.with(this).load("http://daj.wuning.gov.cn/UploadFiles/2013/2/2013012120082043984.jpg")
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    mImg.setImageBitmap(resource);
-                    mImg.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            BitmapDrawable drawable = (BitmapDrawable) mImg.getDrawable();
-                            Bitmap bitmap = drawable.getBitmap();
-                            System.out.println("-----------"+bitmap.getWidth());
-                        }
-                    },1000);
+//            Glide.with(this).load("http://daj.wuning.gov.cn/UploadFiles/2013/2/2013012120082043984.jpg")
+//                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).into(new SimpleTarget<Bitmap>() {
+//                @Override
+//                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                    mImg.setImageBitmap(resource);
+//                    mImg.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            BitmapDrawable drawable = (BitmapDrawable) mImg.getDrawable();
+//                            Bitmap bitmap = drawable.getBitmap();
+//                            System.out.println("-----------"+bitmap.getWidth());
+//                        }
+//                    },1000);
+//
+//                }
+//            });
 
+
+//            mImg.setImageResource(R.mipmap.t1);
+            Glide.with(this).load("http://daj.wuning.gov.cn/UploadFiles/2013/2/2013012120082043984.jpg")
+            .diskCacheStrategy(DiskCacheStrategy.ALL).into(mImg);
+            mImg.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    BitmapDrawable drawable = (BitmapDrawable) mImg.getDrawable();
+                    Bitmap bitmap = drawable.getBitmap();
+                    System.out.println("-----------"+bitmap.getWidth());
                 }
-            });
+            },1000);
 
 
 //            Drawable drawable = mImg.getDrawable();
