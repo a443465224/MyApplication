@@ -28,11 +28,8 @@ public class JavaTest {
     public static void main(String[] args) {
         TestBean testBean = new TestBean();
         String s1 = "";
-        String s2 = "1";
-
-        String s= "01";
-        System.out.println(Integer.valueOf(s));
-
+        // 主分支小改动一下
+        System.out.println(Integer.valueOf(s1));
 
 
 
