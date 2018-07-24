@@ -27,10 +27,7 @@ import java.util.TimeZone;
 public class JavaTest {
     public static void main(String[] args) {
         TestBean testBean = new TestBean();
-        String s1 = "";
-        // 主分支小改动一下
-        System.out.println(Integer.valueOf(s1));
-
+        //test2分支的大改动
 
 
 
