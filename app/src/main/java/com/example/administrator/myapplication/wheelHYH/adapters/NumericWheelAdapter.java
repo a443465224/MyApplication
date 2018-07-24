@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.administrator.myapplication.wheel.adapters;
+package com.example.administrator.myapplication.wheelHYH.adapters;
 
 import android.content.Context;
 
@@ -69,7 +69,7 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
         this.format = format;
     }
 
-    @Override
+    
     public CharSequence getItemText(int index) {
         if (index >= 0 && index < getItemsCount()) {
             int value = minValue + index;
@@ -78,8 +78,13 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
         return null;
     }
 
-    @Override
+    
     public int getItemsCount() {
         return maxValue - minValue + 1;
-    }    
+    }
+
+	@Override
+	public void setCurrentCenterIndex(int index) {
+		
+	}    
 }

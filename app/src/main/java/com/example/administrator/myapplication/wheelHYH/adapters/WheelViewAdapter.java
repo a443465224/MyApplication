@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.example.administrator.myapplication.wheel.adapters;
+package com.example.administrator.myapplication.wheelHYH.adapters;
 
 import android.database.DataSetObserver;
 import android.view.View;
@@ -60,5 +60,7 @@ public interface WheelViewAdapter {
 	 * Unregister an observer that has previously been registered
 	 * @param observer the observer to be unregistered
 	 */
-	void unregisterDataSetObserver (DataSetObserver observer);
+	void unregisterDataSetObserver(DataSetObserver observer);
+	
+	public void setCurrentCenterIndex(int index);
 }

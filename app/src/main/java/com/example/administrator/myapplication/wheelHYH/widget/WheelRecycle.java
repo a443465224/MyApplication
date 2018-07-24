@@ -17,13 +17,13 @@
  *  limitations under the License.
  */
 
-package com.example.administrator.myapplication.wheel;
-
-import android.view.View;
-import android.widget.LinearLayout;
+package com.example.administrator.myapplication.wheelHYH.widget;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import android.view.View;
+import android.widget.LinearLayout;
 
 /**
  * Recycle stores wheel items to reuse. 

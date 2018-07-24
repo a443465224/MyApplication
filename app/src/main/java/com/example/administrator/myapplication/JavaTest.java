@@ -30,41 +30,8 @@ public class JavaTest {
         String s1 = "";
         String s2 = "1";
 
-
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                testBean.insert();
-//            }
-//        }.start();
-
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                testBean.m3("1");
-//            }
-//        }.start();
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                testBean.m3("2");
-//            }
-//        }.start();
-//
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                testBean.m3("3");
-//            }
-//        }.start();
-//
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                testBean.m3("4");
-//            }
-//        }.start();
-
+        String s= "01";
+        System.out.println(Integer.valueOf(s));
 
 
 

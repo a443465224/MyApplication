@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.example.administrator.myapplication.wheel.adapters;
+package com.example.administrator.myapplication.wheelHYH.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -179,7 +179,7 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
      */
     protected abstract CharSequence getItemText(int index);
 
-    @Override
+    
     public View getItem(int index, View convertView, ViewGroup parent) {
         if (index >= 0 && index < getItemsCount()) {
             if (convertView == null) {
@@ -202,7 +202,7 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
     	return null;
     }
 
-    @Override
+    
     public View getEmptyItem(View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = getView(emptyItemResourceId, parent);

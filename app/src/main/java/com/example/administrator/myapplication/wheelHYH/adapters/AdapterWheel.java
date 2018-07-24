@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
 
-package com.example.administrator.myapplication.wheel.adapters;
+package com.example.administrator.myapplication.wheelHYH.adapters;
 
 import android.content.Context;
 
-import com.example.administrator.myapplication.wheel.WheelAdapter;
+import com.example.administrator.myapplication.wheelHYH.widget.WheelAdapter;
 
 /**
  * Adapter class for old wheel adapter (deprecated WheelAdapter class).
@@ -49,14 +49,19 @@ public class AdapterWheel extends AbstractWheelTextAdapter {
         return adapter;
     }
     
-    @Override
+    
     public int getItemsCount() {
         return adapter.getItemsCount();
     }
 
-    @Override
+    
     protected CharSequence getItemText(int index) {
         return adapter.getItem(index);
     }
+
+	@Override
+	public void setCurrentCenterIndex(int index) {
+		
+	}
 
 }
