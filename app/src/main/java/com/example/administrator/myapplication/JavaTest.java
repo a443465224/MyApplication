@@ -8,6 +8,8 @@ import com.example.administrator.myapplication.bean.TestBean;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by XDH on 2017/11/17.
@@ -26,15 +30,30 @@ import java.util.TimeZone;
 
 public class JavaTest {
     public static void main(String[] args) {
-        TestBean testBean = new TestBean();
-        //test2分支的大改动
-
-
-
-        //再次测试回滚后上传功能2
-
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        int j = 0;
+        for (int i = 0; i < 10; i++) {
+            j++;
+            int finalJ = j;
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                        System.out.println(finalJ);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        // 测试TAG功能
 
     }
+
+
+
+        //回滚后又重新改动了文件，上传
 
 
 
